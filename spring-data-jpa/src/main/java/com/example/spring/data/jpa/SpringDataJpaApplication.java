@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @SpringBootApplication
 public class SpringDataJpaApplication {
@@ -17,10 +18,13 @@ public class SpringDataJpaApplication {
 		Order order = new Order();
 		order.setTotalPrice(BigDecimal.TEN);
 		order.setTotalQuantity(10);
-		order.setEmail("abc@abc.com");
+		order.setEmail("abc1@abc.com");
 		order.setStatus(true);
 		// The order object should be added in the db table
 		service.saveOrder(order);
+
+		List<Order> list = service.findAll();
+		list.forEach((o) -> System.out.println(o.toString())) ;
 	}
 
 }

@@ -1,9 +1,13 @@
 package com.example.spring.data.jpa.service;
 
+import com.example.spring.data.jpa.custom.exception.ResourceNotFoundException;
 import com.example.spring.data.jpa.entities.Order;
 import com.example.spring.data.jpa.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class OrderService {
@@ -21,8 +25,17 @@ public class OrderService {
         return newOrder;
     }
 
-    public Iterable<Order> findAll(){
-        Iterable<Order> list = this.repository.findAll();
+    public List<Order> findAll(){
+        List<Order> list = this.repository.findAll();
         return list;
+    }
+
+    public Order findOrderBYId(Long id) throws ResourceNotFoundException {
+        Optional<Order> optional = this.repository.findById(id);
+        if (optional.isPresent()) {
+            return optional.get();
+        }
+        throw new ResourceNotFoundException("Order Object Not Found");
+
     }
 }
